@@ -1,0 +1,13 @@
+gcc main.c LinkedList.c BinarySearchTree.c findCities1BST.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o boxsearch
+gcc main.c LinkedList.c BinarySearchTree.c intersect.c findCities2BST.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o boxsearch
+gcc main.c LinkedList.c BinarySearchTree.c zscore.c findCitiesZBST.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o boxsearch
+gcc main.c LinkedList.c QuadTree.c findCitiesQuadTree.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o boxsearch
+
+
+gcc main.c LinkedList.c findCitiesList.c --std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes -o boxsearch
+
+
+
+
+
+./boxsearch cities_100000.csv 1 5 15 15 --> result 1651
