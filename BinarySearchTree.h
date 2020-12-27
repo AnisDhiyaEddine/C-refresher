@@ -51,7 +51,7 @@ struct node* createNode(const void *key,const void *value);
 
 struct node* keyMinimalBST(struct node *root);
 
-struct node *getNode(BinarySearchTree *bst,struct node *root,const void *key);
+struct node *getNode(BinarySearchTree *bst,const void *key);
 
 struct node *successorBST(BinarySearchTree *bst,const void *key);
 

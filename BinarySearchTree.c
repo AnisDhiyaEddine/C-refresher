@@ -77,21 +77,16 @@ struct node* keyMinimalBST(struct node *root){
     return x;
 }
 
-struct node *getNode(BinarySearchTree *bst,struct node *root,const void *key){
-if(root == NULL || !(bst->compare(root->key,key))){
-    return root;
-}
-if(bst->compare(root->key,key)<0){
-return getNode(bst,root->right,key);
-}
-if(bst->compare(root->key,key)>0){
-return getNode(bst,root->left,key);
-}
-return NULL;
+struct node *getNode(BinarySearchTree *bst,const void *key){
+struct node *node = keyMinimalBST(bst->root);
+   while(bst->compare(node->key,key) < 0){
+       node = successorBST(bst,node->key);
+   }
+   return node;
 }
 
 struct node *successorBST(BinarySearchTree *bst,const void *key){
-struct node *node = getNode(bst,bst->root,key);
+struct node *node = getNode(bst,key);
 if(node->right != NULL){
     return keyMinimalBST(node->right);
 }
@@ -131,7 +126,6 @@ size_t sizeOfBST(const BinarySearchTree* bst){
 
 
 bool insertInBST(BinarySearchTree* tree, const void* key, const void* value){
-printf("----------------test insert-----------------\n");
 struct node *n ,*x , *element;
 element = createNode(key,value);
 if(element == NULL) return false;
@@ -139,7 +133,6 @@ n = NULL;
 x = tree->root;
 
 while(x != NULL){
-   printf("node insert : %f\n",*(double *)x->key);
     n = x;
     if(tree->compare(key,x->key)<0){
         x = x->left;
@@ -186,11 +179,13 @@ const void *searchBST(BinarySearchTree *tree,const void *key){
 LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
 //LinkedList* newLinkedList(void);
 // bool insertInLinkedList(LinkedList* ll, const void* value);
-BinarySearchTree *tree = *(BinarySearchTree **)bst;
+
+BinarySearchTree *tree = (BinarySearchTree *)bst;
 
 LinkedList *list = newLinkedList();
-struct node *temp = getNode(tree,bst->root,keyMin);
-
+struct node *temp = getNode(tree,keyMin);
+        printf("Hellooooooo worlddd luvv uu  \n");
+        printf("%f \n",*(double *)(temp->key));
  while(tree->compare(successorBST(tree,temp->key)->key,keyMax) <= 0){
     insertInLinkedList(list,searchBST(tree,temp));
     temp = successorBST(tree,temp->key);
@@ -208,17 +203,11 @@ BinarySearchTree * fillBst(LinkedList *list, int comparison_fn_t(const void *, c
     if(flag == 0){
         // insert  key = lat
            const void *latitude;
-      
         for(size_t i= 0; i < list->size; i++){
-         
           c =(City *)node->value;
            latitude = &c->latitude; 
-           
-    
            insertInBST(tree,latitude,node->value);
-         
             node =  node->next;
-            
         }
 
     
@@ -232,9 +221,6 @@ BinarySearchTree * fillBst(LinkedList *list, int comparison_fn_t(const void *, c
         }
 
     }
-
-
-printTree(tree->root);
         return tree ;
     }
 

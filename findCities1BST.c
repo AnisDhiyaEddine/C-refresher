@@ -15,11 +15,9 @@ LinkedList* findCities(LinkedList* cities,
                        double longitudeMin,
                        double longitudeMax)
 {
-
         const BinarySearchTree *bst = fillBst(cities,&compareDouble,0);
-     /*   void *min = &latitudeMin; 
+        void *min = &latitudeMin; 
         void *max = &latitudeMax;
-
         LinkedList *s = getInRange(bst , min,max);
 
         LLNode *n = s->head;
@@ -30,6 +28,6 @@ LinkedList* findCities(LinkedList* cities,
      c = *(City**) n->value;
      if(c->longitude <= longitudeMax && c->longitude >= longitudeMin) insertInLinkedList(list,n->value);
      n = n->next;
-    }*/
+     }
 return NULL;
 }
