@@ -1,6 +1,7 @@
 #include "BinarySearchTree.h"
 #include "LinkedList.h"
 #include "City.h"
+#include "zscore.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -208,20 +209,36 @@ BinarySearchTree * fillBst(LinkedList *list, int comparison_fn_t(const void *, c
            insertInBST(tree,latitude,node->value);
             node =  node->next;
         }
+    }
+    if(flag == 1){
+        // insert  key = long
+           const void *longitude;
+        for(size_t i= 0; i < list->size; i++){
+          c =(City *)node->value;
+           longitude = &c->longitude; 
+           insertInBST(tree,longitude,node->value);
+            node =  node->next;
+        }
+    }
 
-    
-    }else if(flag == 1){
-        while(node != NULL){
-           
-           const void *longitude = &c->latitude; 
-          
-            insertInBST(tree,longitude,node->value);
-            node = node->next;
+    if(flag == 2){
+        const void *zScore;
+        uint64_t score;
+        for(size_t i= 0; i < list->size; i++){
+            c =(City *)node->value;
+            score = zEncode(c->latitude,c->longitude);
+            printf("%d\n",score);
+
+        //    zScore = *(&score);
+            insertInBST(tree, zScore ,node->value);
+            node =  node->next;
         }
 
     }
-        return tree ;
+    printTree(tree->root);
+    return tree ;
     }
+
 
 
 
@@ -229,7 +246,6 @@ void printTree(struct node *node){
 if(node != NULL){
  
 printTree(node->left);
-
 printf("node : %f_\n",*(double *)node->key);
 printTree(node->right);
 }

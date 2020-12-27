@@ -36,8 +36,11 @@
  * but still represent the same city.
  * ------------------------------------------------------------------------- */
 
+int compareCities(const void *city1 , const void *city2);
+
 LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
                       int comparison_fn_t(const void *, const void *));
+
 
 
 #endif // !_INTERSECT_H_
