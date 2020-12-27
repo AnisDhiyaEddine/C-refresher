@@ -20,14 +20,19 @@ LinkedList* findCities(LinkedList* cities,
         void *max = &latitudeMax;
         LinkedList *s = getInRange(bst , min,max);
 
-        LLNode *n = s->head;
-        LinkedList *list = newLinkedList();
-        City *c ;
+        LLNode *p = s->head;
+        City *city = NULL;
+        printf("%d \n",s->size);
 
+        LinkedList *list = newLinkedList();
+
+         LLNode *n = s->head;
+        City *c ;
+ 
     while(n != NULL){
-     c = *(City**) n->value;
+     c = (City*) n->value;
      if(c->longitude <= longitudeMax && c->longitude >= longitudeMin) insertInLinkedList(list,n->value);
      n = n->next;
-     }
-return NULL;
+     }  
+return list;
 }

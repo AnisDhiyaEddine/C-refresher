@@ -80,13 +80,12 @@ struct node* keyMinimalBST(struct node *root){
 struct node *getNode(BinarySearchTree *bst,const void *key){
 struct node *node = keyMinimalBST(bst->root);
    while(bst->compare(node->key,key) < 0){
-       node = successorBST(bst,node->key);
+       node = successorBST(node);
    }
    return node;
 }
 
-struct node *successorBST(BinarySearchTree *bst,const void *key){
-struct node *node = getNode(bst,key);
+struct node *successorBST(struct node *node){
 if(node->right != NULL){
     return keyMinimalBST(node->right);
 }
@@ -97,7 +96,7 @@ while(n != NULL && node == n->right){
 }
 return n;
 }
-
+ 
 
 
 ////////////////////////////////////////////////////////////
@@ -179,16 +178,16 @@ const void *searchBST(BinarySearchTree *tree,const void *key){
 LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
 //LinkedList* newLinkedList(void);
 // bool insertInLinkedList(LinkedList* ll, const void* value);
-
 BinarySearchTree *tree = (BinarySearchTree *)bst;
-
 LinkedList *list = newLinkedList();
+
 struct node *temp = getNode(tree,keyMin);
-        printf("Hellooooooo worlddd luvv uu  \n");
-        printf("%f \n",*(double *)(temp->key));
- while(tree->compare(successorBST(tree,temp->key)->key,keyMax) <= 0){
-    insertInLinkedList(list,searchBST(tree,temp));
-    temp = successorBST(tree,temp->key);
+if(temp == NULL) return NULL;
+insertInLinkedList(list,temp->value);
+temp = successorBST(temp);
+ while(tree->compare(temp->key,keyMax) <= 0){
+    insertInLinkedList(list,temp->value);
+    temp = successorBST(temp);
 }  
 return list;
 }

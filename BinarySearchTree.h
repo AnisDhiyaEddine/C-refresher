@@ -53,7 +53,7 @@ struct node* keyMinimalBST(struct node *root);
 
 struct node *getNode(BinarySearchTree *bst,const void *key);
 
-struct node *successorBST(BinarySearchTree *bst,const void *key);
+struct node *successorBST(struct node *node);
 
 const void *searchRecursiveBST(BinarySearchTree *tree,struct node *root , const void *key);
 
