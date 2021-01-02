@@ -1,7 +1,7 @@
 #include "findCities.h"
 #include "BinarySearchTree.h"
 #include "LinkedList.h"
-#include "intersect.c"
+#include "intersect.h"
 #include "City.h"
 #include <stdio.h>
 #include <stdlib.h>
