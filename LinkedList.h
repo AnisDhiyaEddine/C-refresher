@@ -10,18 +10,19 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-
-typedef struct llnode_t {
-    const void* value;
-    struct llnode_t* next;
+typedef struct llnode_t
+{
+    const void *value;
+    struct llnode_t *next;
 
 } LLNode;
 
-typedef struct linkedlist_t {
+typedef struct linkedlist_t
+{
     size_t size;
-    LLNode* head;
-    LLNode* last;
-}LinkedList;
+    LLNode *head;
+    LLNode *last;
+} LinkedList;
 
 /* ------------------------------------------------------------------------- *
  * Creates an empty LinkedList
@@ -33,8 +34,7 @@ typedef struct linkedlist_t {
  *
  * ------------------------------------------------------------------------- */
 
-LinkedList* newLinkedList(void);
-
+LinkedList *newLinkedList(void);
 
 /* ------------------------------------------------------------------------- *
  * Frees the allocated memory of the given LinkedList.
@@ -48,7 +48,7 @@ LinkedList* newLinkedList(void);
  * to allow the deletion of the content.
  * ------------------------------------------------------------------------- */
 
-void freeLinkedList(LinkedList* ll, bool freeContent);
+void freeLinkedList(LinkedList *ll, bool freeContent);
 
 /* ------------------------------------------------------------------------- *
  * Counts the number of elements stored in the given LinkedList.
@@ -60,8 +60,7 @@ void freeLinkedList(LinkedList* ll, bool freeContent);
  * nb           The amount of elements stored in linked list
  * ------------------------------------------------------------------------- */
 
-size_t sizeOfLinkedList(const LinkedList* ll);
-
+size_t sizeOfLinkedList(const LinkedList *ll);
 
 /* ------------------------------------------------------------------------- *
  * Inserts a new element in the linked list.
@@ -75,8 +74,7 @@ size_t sizeOfLinkedList(const LinkedList* ll);
  *              inserted, false otherwise (error)
  * ------------------------------------------------------------------------- */
 
-bool insertInLinkedList(LinkedList* ll, const void* value);
-
+bool insertInLinkedList(LinkedList *ll, const void *value);
 
 /* ------------------------------------------------------------------------- *
  * Return a new linked list containing (the pointer to) the element of the
@@ -99,8 +97,6 @@ bool insertInLinkedList(LinkedList* ll, const void* value);
  * LinkedList* filtered = filterLinkedList(ll, &startByH);
  * ------------------------------------------------------------------------- */
 
-LinkedList* filterLinkedList(LinkedList* ll,  bool keepIt_fn_t(const void*));
-
-
+LinkedList *filterLinkedList(LinkedList *ll, bool keepIt_fn_t(const void *));
 
 #endif // !_LINKED_LIST_H_
