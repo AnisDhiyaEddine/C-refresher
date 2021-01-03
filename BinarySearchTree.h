@@ -9,8 +9,10 @@
 #include <stdbool.h>
 #include "LinkedList.h"
 
+
 /* Opaque Structure */
 typedef struct tree_t BinarySearchTree;
+
 
 /* ------------------------------------------------------------------------- *
  * Creates an empty BinarySearchTree (or BST).
@@ -40,25 +42,25 @@ typedef struct tree_t BinarySearchTree;
  * BinarySearchTree bst = newBST(&compare_doubles);
  * ------------------------------------------------------------------------- */
 
-int compareInt(const void *a, const void *b);
+int compareInt(const void* a,const void* b);
 
-int compareDouble(const void *a, const void *b);
+int compareDouble(const void* a,const void* b);
 
 struct node *freeNode(struct node *root);
 
-struct node *createNode(const void *key, const void *value);
+struct node* createNode(const void *key,const void *value);
 
-struct node *keyMinimalBST(struct node *root);
+struct node* keyMinimalBST(struct node *root);
 
-struct node *getNode(BinarySearchTree *bst, const void *key);
+struct node *getNode(BinarySearchTree *bst,const void *key);
 
 struct node *successorBST(struct node *node);
 
-const void *searchRecursiveBST(BinarySearchTree *tree, struct node *root, const void *key);
+const void *searchRecursiveBST(BinarySearchTree *tree,struct node *root , const void *key);
 
-BinarySearchTree *fillBst(LinkedList *list, int comparison_fn_t(const void *, const void *), int flag);
+const BinarySearchTree * fillBst(LinkedList *list, int comparison_fn_t(const void *, const void *) ,int flag);
 
-BinarySearchTree *newBST(int comparison_fn_t(const void *, const void *));
+BinarySearchTree* newBST(int comparison_fn_t(const void *, const void *));
 
 void printTree(struct node *node);
 /* ------------------------------------------------------------------------- *
@@ -73,7 +75,7 @@ void printTree(struct node *node);
  * to allow the deletion of the content.
  * ------------------------------------------------------------------------- */
 
-void freeBST(BinarySearchTree *bst, bool freeContent);
+void freeBST(BinarySearchTree* bst, bool freeContent);
 
 /* ------------------------------------------------------------------------- *
  * Counts the number of elements/nodes stored in the given BinarySearchTree.
@@ -85,7 +87,9 @@ void freeBST(BinarySearchTree *bst, bool freeContent);
  * nb           The amount of elements stored in bst
  * ------------------------------------------------------------------------- */
 
-size_t sizeOfBST(const BinarySearchTree *bst);
+size_t sizeOfBST(const BinarySearchTree* bst);
+
+
 
 /* ------------------------------------------------------------------------- *
  * Inserts a new key-value pair in the provided BinarySearchTree. This
@@ -101,7 +105,9 @@ size_t sizeOfBST(const BinarySearchTree *bst);
  *              inserted, false otherwise
  * ------------------------------------------------------------------------- */
 
-bool insertInBST(BinarySearchTree *bst, const void *key, const void *value);
+bool insertInBST(BinarySearchTree* bst, const void* key, const void* value);
+
+
 
 /* ------------------------------------------------------------------------- *
  * Return the value associated to that key, if any
@@ -115,7 +121,7 @@ bool insertInBST(BinarySearchTree *bst, const void *key, const void *value);
  *              is not present in the BST
  * ------------------------------------------------------------------------- */
 
-const void *searchBST(BinarySearchTree *bst, const void *key);
+const void* searchBST(BinarySearchTree* bst, const void* key);
 
 /* ------------------------------------------------------------------------- *
  * Finds a set of elements in the provided BinarySearchTree whose the keys
@@ -136,6 +142,8 @@ const void *searchBST(BinarySearchTree *bst, const void *key);
  * If no elements are in the range, the function returns an empty linked-list
  * ------------------------------------------------------------------------- */
 
-LinkedList *getInRange(const BinarySearchTree *bst, void *keyMin, void *keyMax);
+LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax);
+
+
 
 #endif // !_BINARY_SEARCH_TREE_H_

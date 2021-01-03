@@ -2,6 +2,7 @@
  * Z-Score interface
  * ========================================================================= */
 
+
 #ifndef _Z_SCORE_H_
 #define _Z_SCORE_H_
 
@@ -20,7 +21,5 @@
  * code             A Z-score corresponding to the coordinate
  * ------------------------------------------------------------------------- */
 uint64_t zEncode(double latitude, double longitutde);
-
-BinarySearchTree *fillZbst(LinkedList *list, int comparison_fn_t(const void *, const void *));
 
 #endif // _Z_SCORE_H_

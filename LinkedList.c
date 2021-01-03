@@ -2,13 +2,16 @@
  * LinkedList definition
  * ========================================================================= */
 
+
 #include <stddef.h>
 #include <stdlib.h>
 #include "LinkedList.h"
 
-LinkedList *newLinkedList(void)
+
+
+LinkedList* newLinkedList(void)
 {
-    LinkedList *ll = malloc(sizeof(LinkedList));
+    LinkedList* ll = malloc(sizeof(LinkedList));
     if (!ll)
         return NULL;
     ll->head = NULL;
@@ -17,45 +20,47 @@ LinkedList *newLinkedList(void)
     return ll;
 }
 
-void freeLinkedList(LinkedList *ll, bool freeContent)
+
+
+void freeLinkedList(LinkedList* ll, bool freeContent)
 {
     // Free LLNodes
-    LLNode *node = ll->head;
-    LLNode *prev = NULL;
-    while (node != NULL)
+    LLNode* node = ll->head;
+    LLNode* prev = NULL;
+    while(node != NULL)
     {
         prev = node;
         node = node->next;
-        if (freeContent)
-            free((void *)prev->value); // Discard const qualifier
+        if(freeContent)
+            free((void*)prev->value); // Discard const qualifier
         free(prev);
     }
     // Free LinkedList sentinel
     free(ll);
 }
 
-size_t sizeOfLinkedList(const LinkedList *ll)
+
+size_t sizeOfLinkedList(const LinkedList* ll)
 {
     return ll->size;
 }
 
-bool insertInLinkedList(LinkedList *ll, const void *value)
+
+bool insertInLinkedList(LinkedList* ll, const void* value)
 {
-    LLNode *node = malloc(sizeof(LLNode));
-    if (!node)
+    LLNode* node = malloc(sizeof(LLNode));
+    if(!node)
         return false;
     // Initialisation
     node->next = NULL;
     node->value = value;
     // Adding the node to the list
-    if (!ll->last)
+    if(!ll->last)
     {
         // First element in the list
         ll->last = node;
         ll->head = node;
-    }
-    else
-    {
+    } else {
         //At least one element in the list
         ll->last->next = node;
         ll->last = node;
@@ -65,20 +70,20 @@ bool insertInLinkedList(LinkedList *ll, const void *value)
     return true;
 }
 
-LinkedList *filterLinkedList(LinkedList *ll, bool keepIt_fn_t(const void *))
+LinkedList* filterLinkedList(LinkedList* ll,  bool keepIt_fn_t(const void*))
 {
-    LinkedList *filtered = newLinkedList();
+    LinkedList* filtered = newLinkedList();
     if (!filtered)
         return NULL;
-    LLNode *curr = ll->head;
+    LLNode* curr = ll->head;
     bool error = false;
-    while (!error && curr != NULL)
+    while(!error && curr != NULL)
     {
-        if (keepIt_fn_t(curr->value))
-            error = error || !insertInLinkedList(filtered, curr->value);
+        if(keepIt_fn_t(curr->value))
+            error = error  || !insertInLinkedList(filtered, curr->value);
         curr = curr->next;
     }
-    if (error)
+    if(error)
     {
         freeLinkedList(filtered, false);
         return NULL;

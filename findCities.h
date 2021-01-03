@@ -2,10 +2,12 @@
  * FindCity interface
  * ========================================================================= */
 
+
 #ifndef _FIND_CITIES_H_
 #define _FIND_CITIES_H_
 
 #include "LinkedList.h"
+
 
 /* ------------------------------------------------------------------------- *
  * Find all the cities in a box.
@@ -23,10 +25,12 @@
  *                  Note that if no cities are within the box, this function
  *                  will return an empty linked list (not NULL).
  * ------------------------------------------------------------------------- */
-LinkedList *findCities(LinkedList *cities,
+LinkedList* findCities(LinkedList* cities,
                        double latitudeMin,
                        double latitudeMax,
                        double longitudeMin,
                        double longitudeMax);
 
+
 #endif // !_FIND_CITIES_H_
+

@@ -6,34 +6,36 @@
 #include "findCities.h"
 #include "LinkedList.h"
 
-LinkedList *findCities(LinkedList *cities,
+LinkedList* findCities(LinkedList* cities,
                        double latitudeMin,
                        double latitudeMax,
                        double longitudeMin,
                        double longitudeMax)
 {
     // Create return object
-    LinkedList *filtered = newLinkedList();
+    LinkedList* filtered = newLinkedList();
     if (!filtered)
         return NULL;
 
     // Filter the cities
-    LLNode *curr = cities->head;
+    LLNode* curr = cities->head;
     bool error = false;
-    const City *city;
-    while (!error && curr != NULL)
+    const City* city;
+    while(!error && curr != NULL)
     {
-        city = (const City *)curr->value;
-        if (latitudeMin <= city->latitude && city->latitude <= latitudeMax &&
-            longitudeMin <= city->longitude && city->longitude <= longitudeMax)
-            error = error || !insertInLinkedList(filtered, curr->value);
+        city = (const City*)curr->value;
+        if(latitudeMin <= city->latitude && city->latitude <= latitudeMax &&
+           longitudeMin <= city->longitude && city->longitude <= longitudeMax)
+            error = error  || !insertInLinkedList(filtered, curr->value);
         curr = curr->next;
     }
     // Free in case of error
-    if (error)
+    if(error)
     {
         freeLinkedList(filtered, false);
         return NULL;
     }
     return filtered;
 }
+
+

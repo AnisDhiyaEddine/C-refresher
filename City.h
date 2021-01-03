@@ -6,10 +6,9 @@
 #define _CITY_H_
 
 /** Data structure for storing city information */
-typedef struct city_t
-{
-    char *name;
-    double latitude;  // latitude
+typedef struct city_t {
+    char* name;
+    double latitude; // latitude
     double longitude; // longitude
 } City;
 
