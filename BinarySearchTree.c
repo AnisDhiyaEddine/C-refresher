@@ -1,12 +1,20 @@
 #include "BinarySearchTree.h"
+struct node *freeNode(struct node *root);
+struct node *createNode(const void *key, const void *value);
+struct node *keyMinimalBST(struct node *root);
+struct node *getNode(BinarySearchTree *bst, const void *key);
+struct node *successorBST(struct node *node);
+const void *searchRecursiveBST(BinarySearchTree *tree, struct node *root, const void *key);
+const BinarySearchTree *fillBst(LinkedList *list, int comparison_fn_t(const void *, const void *), int flag);
+BinarySearchTree *newBST(int comparison_fn_t(const void *, const void *));
+void printTree(struct node *node);  
 #include "LinkedList.h"
 #include "zscore.h"
 #include "City.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-
-struct node{
+    struct node{
     const void *key;
     const void *value;
     struct node *left;
@@ -22,32 +30,6 @@ int (*compare)(const void*, const void*);
 
 
 //Utility functions 
-
-int compareInt(const void* a,const void* b){
-
-const uint64_t *varA = (const uint64_t *)a;
-const uint64_t *varB = (const uint64_t *)b;
-if(varA < varB){
- return -1;
-}
-if(varA == varB){
-    return 0;
-}
-return 1;
-}
-
-
-int compareDouble(const void* a,const void* b){
-const double varA = *(double*)a;
-const double varB = *(double*)b;
-if(varA < varB){
-    return -1;
-}
-if(varA == varB){
-    return 0;
-}
-return 1;
-}
 
 
 struct node* freeNode(struct node *root){

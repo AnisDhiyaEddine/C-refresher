@@ -40,30 +40,7 @@ typedef struct tree_t BinarySearchTree;
  * }
  * ...
  * BinarySearchTree bst = newBST(&compare_doubles);
- * ------------------------------------------------------------------------- */
-
-int compareInt(const void* a,const void* b);
-
-int compareDouble(const void* a,const void* b);
-
-struct node *freeNode(struct node *root);
-
-struct node* createNode(const void *key,const void *value);
-
-struct node* keyMinimalBST(struct node *root);
-
-struct node *getNode(BinarySearchTree *bst,const void *key);
-
-struct node *successorBST(struct node *node);
-
-const void *searchRecursiveBST(BinarySearchTree *tree,struct node *root , const void *key);
-
-const BinarySearchTree * fillBst(LinkedList *list, int comparison_fn_t(const void *, const void *) ,int flag);
-
-BinarySearchTree* newBST(int comparison_fn_t(const void *, const void *));
-
-void printTree(struct node *node);
-/* ------------------------------------------------------------------------- *
+ * -------------------------------------------------------------------------
  * Frees the allocated memory of the given BinarySearchTree.
  *
  * PARAMETERS

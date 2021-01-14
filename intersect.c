@@ -1,10 +1,7 @@
 #include "intersect.h"
 #include "City.h"
 #include <string.h>
-
-
-
-
+int compareCities(const void *city1, const void *city2);
 int compareCities(const void *city1 , const void *city2){
     City *c1 = (City *)city1;
     City *c2 = (City *)city2;
