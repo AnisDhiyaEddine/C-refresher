@@ -1,13 +1,13 @@
 #include "BinarySearchTree.h"
 struct node *freeNode(struct node *root);
 struct node *createNode(const void *key, const void *value);
-struct node *keyMinimalBST(struct node *root);
-struct node *getNode(BinarySearchTree *bst, const void *key);
-struct node *successorBST(struct node *node);
 const void *searchRecursiveBST(BinarySearchTree *tree, struct node *root, const void *key);
 const BinarySearchTree *fillBst(LinkedList *list, int comparison_fn_t(const void *, const void *), int flag);
 BinarySearchTree *newBST(int comparison_fn_t(const void *, const void *));
+void getInRangeRec(const BinarySearchTree *bst, struct node *node, LinkedList *list, void *keyMin, void *keyMax);
+
 void printTree(struct node *node);  
+
 #include "LinkedList.h"
 #include "zscore.h"
 #include "City.h"
@@ -53,35 +53,19 @@ struct node* createNode(const void *key,const void *value){
 }
 
 
-struct node* keyMinimalBST(struct node *root){
-    struct node *x = root;
-    while(x->left != NULL){
-        x = x->left;
+void getInRangeRec(const BinarySearchTree *bst, struct node *node, LinkedList *list, void *keyMin, void *keyMax)
+{
+    if(node == NULL){
+        return;
     }
-    return x;
-}
+    if((bst->compare(node->key, keyMax) <= 0) && (bst->compare(node->key, keyMin) >= 0)){
+        insertInLinkedList(list, node->value);
+    }
+    getInRangeRec(bst,node->left,list,keyMin,keyMax);
+    getInRangeRec(bst,node->right, list, keyMin, keyMax);
 
-struct node *getNode(BinarySearchTree *bst,const void *key){
-struct node *node = keyMinimalBST(bst->root);
-   while(bst->compare(node->key,key) < 0 && node != NULL){
-       node = successorBST(node);
-   }
-   return node;
+    return;
 }
-
-struct node *successorBST(struct node *node){
-if(node->right != NULL){
-    return keyMinimalBST(node->right);
-}
-struct node *n = node->father;
-while(n != NULL && node == n->right){  
-    node = n ;
-    n = n->father;
-}
-return n;
-}
- 
-
 
 ////////////////////////////////////////////////////////////
 
@@ -168,16 +152,7 @@ LinkedList* getInRange(const BinarySearchTree* bst, void* keyMin, void* keyMax){
 
 BinarySearchTree *tree = (BinarySearchTree *)bst;
 LinkedList *list = newLinkedList();
-
-struct node *temp = getNode(tree,keyMin);
-
-if(temp == NULL) return NULL;
-insertInLinkedList(list,temp->value);
-temp = successorBST(temp);
- while(temp != NULL && tree->compare(temp->key,keyMax) <= 0){
-    insertInLinkedList(list,temp->value);
-    temp = successorBST(temp);
-}  
+getInRangeRec(bst,tree->root, list, keyMin, keyMax);
 return list;
 }
 
