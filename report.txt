@@ -187,38 +187,37 @@ Number of cities after filtering: 1651
     2-
     
                  ------First Approach-------
-./boxsearch cities_10000.csv 100 -100 -150 150 
+./boxsearch cities_10000.csv 85 -85 -85 15
 Number of cities: 10000
-time = 0.005104
-Number of cities after filtering: 9803
+time = 0.004378
+Number of cities after filtering: 2603
                  ------Second Approach-------
-./boxsearch cities_10000.csv 100 -100 -150 150 
+./boxsearch cities_10000.csv 85 -85 -85 15
 Number of cities: 10000
-time = 0.302481
-Number of cities after filtering: 9803
+time = 0.160600
+Number of cities after filtering: 2603
                  ------Third Approach-------
-./boxsearch cities_10000.csv 100 -100 -150 150 
+./boxsearch cities_10000.csv 85 -85 -85 15
 Number of cities: 10000
-time = 0.004322
-Number of cities after filtering: 1665
-    
+time = 0.003620
+Number of cities after filtering: 2603
     3-
 
                      ------First Approach-------
-./boxsearch cities_100000.csv 100 -10 -50 10 
+./boxsearch cities_100000.csv 50 -10 -50 10 
 Number of cities: 100000
-time = 0.092713
-Number of cities after filtering: 13135
+time = 0.108084
+Number of cities after filtering: 10005
                  ------Second Approach-------
 ./boxsearch cities_100000.csv 100 -10 -50 10
 Number of cities: 100000
 time = 8.338943
 Number of cities after filtering: 13135
                  ------Third Approach-------
- ./boxsearch cities_100000.csv 100 -10 -50 10 
+./boxsearch cities_100000.csv 50 -10 -50 10 
 Number of cities: 100000
-time = 0.049779
-Number of cities after filtering: 5668
+time = 0.057222
+Number of cities after filtering: 10005
                              
     After 10 essayes with diffrent values : 
     The best approach between the first three approaches is the Third one
