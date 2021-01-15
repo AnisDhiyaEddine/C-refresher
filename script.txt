@@ -10,4 +10,4 @@ gcc main.c LinkedList.c findCitiesList.c --std=c99 --pedantic -Wall -Wextra -Wmi
 
 
 
-./boxsearch cities_100000.csv 1 5 15 15 --> result 1651
+./boxsearch cities_100000.csv 100 -10 -50 10 

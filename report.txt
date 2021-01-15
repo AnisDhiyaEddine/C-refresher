@@ -186,8 +186,39 @@ Number of cities after filtering: 1651
     
     2-
     
+                 ------First Approach-------
+./boxsearch cities_10000.csv 100 -100 -150 150 
+Number of cities: 10000
+time = 0.005104
+Number of cities after filtering: 9803
+                 ------Second Approach-------
+./boxsearch cities_10000.csv 100 -100 -150 150 
+Number of cities: 10000
+time = 0.302481
+Number of cities after filtering: 9803
+                 ------Third Approach-------
+./boxsearch cities_10000.csv 100 -100 -150 150 
+Number of cities: 10000
+time = 0.004322
+Number of cities after filtering: 1665
     
     3-
+
+                     ------First Approach-------
+./boxsearch cities_100000.csv 100 -10 -50 10 
+Number of cities: 100000
+time = 0.092713
+Number of cities after filtering: 13135
+                 ------Second Approach-------
+./boxsearch cities_100000.csv 100 -10 -50 10
+Number of cities: 100000
+time = 8.338943
+Number of cities after filtering: 13135
+                 ------Third Approach-------
+ ./boxsearch cities_100000.csv 100 -10 -50 10 
+Number of cities: 100000
+time = 0.049779
+Number of cities after filtering: 5668
                              
     After 10 essayes with diffrent values : 
     The best approach between the first three approaches is the Third one
@@ -197,13 +228,15 @@ Number of cities after filtering: 1651
     4th approach average time : -- Seconds
        
        
+   // Comments : 
+   Three first approaches : 
+   The worst approach is the second because it implements the tree two times .. general case 2times the First approach time
+   The intersect function is naive with O(n^2) that's why it takes a lot of time .
    
+   The third approach is the best because it doesn't implement the filter method O(n) complexity that's why it's very fast compared to first one
+   The first one is between the second and the third approaches it implements a single tree like the Third approach and a filter method with O(n) complexity
    
-   
-   
-   
-   
-   
+à améliorer ;)
    
    
    
