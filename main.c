@@ -158,15 +158,21 @@ int main(int argc, char** argv)
     size_t nbCities = sizeOfLinkedList(cities);
     printf("Number of cities: %lu\n", nbCities);
 
+    float time;
+    clock_t t1, t2;
+
     // Compute the cities in the box
-    LinkedList* citiesInBox = findCities(cities, latitudeMin, latitudeMax,
+    t1 = clock();
+    LinkedList *citiesInBox = findCities(cities, latitudeMin, latitudeMax,
                                          longitudeMin, longitudeMax);
     if(!citiesInBox)
     {
         fprintf(stderr, "Allocation error while finding the cities. Exiting...\n");
         exit(EXIT_FAILURE);
     }
-
+    t2 = clock();
+    time = (float)(t2 - t1) / CLOCKS_PER_SEC;
+    printf("time = %f\n", time);
     // Print stuff
     nbCities = sizeOfLinkedList(citiesInBox);
     printf("Number of cities after filtering: %lu\n", nbCities);

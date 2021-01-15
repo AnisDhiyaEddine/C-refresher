@@ -108,7 +108,7 @@ while(x != NULL){
            
     }else{
         x = x->right;
-         
+        // If elements are equal we add in the right
     }
 }
     element->father = n;   //merging the key if it exists.

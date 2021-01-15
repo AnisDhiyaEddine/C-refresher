@@ -23,6 +23,7 @@ LinkedList* intersect(const LinkedList* listA, const LinkedList* listB,
                               while(head2 != NULL){
                                   if(comparison_fn_t(head1->value , head2->value)){
                                       insertInLinkedList(result,head1->value);
+                                      break;
                                   }
                                   head2 = head2->next;
                               }

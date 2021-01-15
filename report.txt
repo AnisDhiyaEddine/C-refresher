@@ -1,0 +1,215 @@
+CityFinder report 
+Directed by :
+- 
+-
+-
+-
+
+
+ To implement a city finder solution based on binary search trees we've defined a special generic structure for both our nodes and trees.
+ 
+  The structure of the tree "tree_t" contains: 
+   - A pointer to a root node "root"
+   - A size key of type size_t "size of the tree"
+   - A generic comparaison function that takes as an argument two const void pointers
+   and returns an int based on the result of comparaison 
+   
+  The structre of the node "node" contains: 
+   - A generic key of type const void pointer "either latitude, longitude or ZScore"
+   - A generic value of type const void pointer "basically a city structure"
+   - A left, right and father properties of type node pointers 
+  
+ 
+ To implement the required functions 
+  - newBst, freeBst, insertBst, sizeOfBst, insertInBst, searchBst and getInRange we used some utility functions but before discussing them let's see briefly how we implemented each one : 
+   
+   - newBst : we've allocated the required space for the tree_t structure 
+   and we assigned falsy values to each property of the structure , attached the appropriate comparaison function to the compare property  and returned the 
+   pointer.
+   
+   note : for the comparaison function , for the first and the second approaches
+   we used a compareDouble 
+   
+   - freeBst in this function we've made use of a utility function freeNode
+       - freeNode frees the allocated space of the root node and all it's 
+       childs.
+     The freeBst frees the allocated space of the tree_t structure returned by 
+     newBst and all the other nodes with the freeNode.
+   
+   - sizeBst returns the size of our tree
+   
+   - insertInBst in this function we've made use of a utility function creatNode 
+     - createNode takes as an argument a const void pointer key "latitude ||  longitude || ZScore" and a const void pointer value "city" it creates a tree node , this last will be inserted in our tree.
+     To insert a node we used an iteratve insertion method for the sake of simplicity , we created a node and we inserted it directly because we didn't want to be obligated to add another utility function that insert it recursively. for the comparaison we used the comparaison function attached to our tree returnd by newBst
+    
+    - searchBst to search the existence of a key in our Bst we've made use of a recursive version that takes an extra node type argument, it's called searchRecursiveBst and we return a value "city"
+    
+    -------------------------------------------------------------------------------------
+    3-
+    
+    getInRange in this function we've made use of a utility function :
+     - getInRangeRec , it takes the bst structure to use the appropriate comparaison function
+     it takes a node to do the recursion on , a list to add inRange elements to and keyMin,  
+     keyMax to determine the range. in our recursion if the element isIn range we insert it to 
+     our list else we do nothing and we continue our recursion calls
+         
+    
+Pseudo code du fonction getInRange()
+
+List getInRange(bst, keyMin, keyMax){
+
+tree = bst;
+List list = newLinkedList();
+getInRangeRec(bst,tree->root, list, keyMin, keyMax);
+return list;
+}
+
+
+getInRangeRec(bst, node, list, keyMin, keyMax)
+{
+    if(node == NULL){
+        return;
+    }
+    if((bst->compare(node->key, keyMax) <= 0) && (bst->compare(node->key, keyMin) >= 0)){
+        insertInLinkedList(list, node->value);
+    }
+    getInRangeRec(bst,node->left,list,keyMin,keyMax);
+    getInRangeRec(bst,node->right, list, keyMin, keyMax);
+
+    return;
+}
+
+   - Complexité : 
+   Worst case : N element in our tree and they are all in range
+   N recursion call and each call a one insert operation
+   O(n) * O(1) = O(n) ; insert operation complexity is O(1)
+   Best case : No element in our tree no insertion the time complexity is O(1) 
+   
+   
+       -------------------------------------------------------------------------------------
+       4-
+       Intersect(list1, list2) we used the good old method, we have two lists we go through the 
+       first one and for each element of it's elements , we make a search on the second list , 
+       if we find a match we insert it on our list and we break the loop
+       
+       Pseudo code : 
+       
+       List intersect(listA, listB, compareFn ){
+                          head1 = listA->head;
+                          head2 = NULL;
+                          result = newLinkedList();
+                          while(head1 != NULL){
+                              head2 = listB->head;
+                              while(head2 != NULL){
+                                  if( compareFn(head1->value , head2->value)){
+                                      insertInLinkedList(result,head1->value);
+                                      break;
+                                  }
+                                  head2 = head2->next;
+                              }
+                              head1 = head1->next;
+                          }        
+                          return result;        
+                        }
+
+       -------------------------------------------------------------------------------------
+       5-
+       
+       - Complexity 
+       Worst case : n elements on list1 and m element on list2 
+       no element of list1 existes on list2 two nested loops  O(m*n)
+       insert in list takes O(1) so the overall complexity is O(m*n)
+       as m < n so the final complexity is O(m^2)
+       
+       Best case : 
+       m element on list1 and m element on list2 , all elements are equal 
+       Time Complexity is O(m) we always break the second loop on the first element
+       
+       
+       -------------------------------------------------------------------------------------
+       6-
+       
+       
+       
+       -------------------------------------------------------------------------------------
+       7-
+
+                     
+       
+         
+       -------------------------------------------------------------------------------------
+       8-
+       
+       
+       
+       -------------------------------------------------------------------------------------
+       9- Comparaison empirique des quatres approaches
+       to mesure the time required by each approach we used 
+       
+       
+    float time;
+    clock_t t1, t2;
+
+    // Compute the cities in the box
+    t1 = clock();
+    LinkedList *citiesInBox = findCities(cities, latitudeMin, latitudeMax,
+                                         longitudeMin, longitudeMax);
+    if(!citiesInBox)
+    {
+        fprintf(stderr, "Allocation error while finding the cities. Exiting...\n");
+        exit(EXIT_FAILURE);
+    }
+    t2 = clock();
+    time = (float)(t2 - t1) / CLOCKS_PER_SEC;
+    printf("time = %f\n", time);
+                          
+    9-a First three essayes : 
+    1-
+    
+                 ------First Approach-------
+./boxsearch cities_100000.csv 1 5 15 15
+Number of cities: 100000
+time = 0.081326
+Number of cities after filtering: 1651    
+
+                 ------Second Approach-------
+./boxsearch cities_100000.csv 1 5 15 15
+Number of cities: 100000
+time = 0.950542
+Number of cities after filtering: 1651
+
+                 ------Third Approach-------
+./boxsearch cities_100000.csv 1 5 15 15
+Number of cities: 100000
+time = 0.049091
+Number of cities after filtering: 1651
+    
+    2-
+    
+    
+    3-
+                             
+    After 10 essayes with diffrent values : 
+    The best approach between the first three approaches is the Third one
+    1st approach average time : 0.075424 Seconds
+    2nd approach average time : 0.946539 Seconds   
+    3rd approach average time : 0.047884 Seconds    
+    4th approach average time : -- Seconds
+       
+       
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
