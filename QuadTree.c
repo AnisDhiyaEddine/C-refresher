@@ -1,8 +1,9 @@
-#include "QuadTree.h"
 #include "LinkedList.h"
 #include "City.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "QuadTree.h"
+
 
 /*Structure de la cle*/
 struct cle
@@ -83,38 +84,27 @@ Node createNode(Cle key, City *value)
 /*Comparison de deux clés*/
 int compareKey(Cle key1, Cle key2)
 {
+
   if ((key1->latitude == key2->latitude) && (key1->longitude == key2->longitude))
-  {
     return 0;
-  }
-  if (key1->longitude >= key2->longitude)
-  {
-    if (key1->latitude >= key2->latitude)
-    {
-      return 1;
-    }
-    else
-    {
-      return 2;
-    }
-  }
-  if (key1->longitude <= key2->longitude)
-  {
-    if (key1->latitude <= key2->latitude)
-    {
-      return 4;
-    }
-    else
-    {
-      return 3;
-    }
-  }
-  return -1;
+    
+  if ((key1->longitude >= key2->longitude) && (key1->latitude >= key2->latitude))
+    return 1;
+
+  if ((key1->longitude > key2->longitude) && !(key1->latitude > key2->latitude))
+    return 2;
+
+  if ((key1->longitude <= key2->longitude) && !(key1->latitude <= key2->latitude))
+    return 3;
+
+  if ((key1->longitude <= key2->longitude) && (key1->latitude <= key2->latitude))
+    return 4;
+
+  return 0;
 }
 
 /*Créer un nouveau arbre*/
-QuadTree newQuadTree()
-{
+QuadTree newQuadTree(){
   QuadTree qTree = malloc(sizeof(struct _tree));
   if (qTree == NULL)
   {
@@ -233,31 +223,34 @@ City *searchQuadTree(QuadTree tree, Cle key)
 /*Tester si un noeud (City) se situe entre 2 clées (2 points)*/
 bool isInRage(Node nd, Cle keyMin, Cle keyMax)
 {
-  if (nd == NULL)
+   if (nd == NULL)
     return false;
   if ((compareKey(nd->key, keyMin) == 0) || (compareKey(nd->key, keyMax) == 0))
     return true;
 
-  if ((compareKey(nd->key, keyMin) == 1) && (compareKey(nd->key, keyMax) == 4))
+  if ((compareKey(nd->key, keyMin) == 1)  && (compareKey(nd->key, keyMax) == 4) )
     return true;
 
-  return false;
+  return false; 
 }
 
 /*Insirer dans la list tout les noeuds (Cities) qui sont entre les deux clées*/
 void getInRage(Node node, LinkedList *list, Cle keyMin, Cle keyMax)
 {
+
   if (node == NULL)
     return;
-  if (isInRage(node, keyMin, keyMax))
-  {
-    insertInLinkedList(list, node->value);
-  }
 
   getInRage(node->northEst, list, keyMin, keyMax);
   getInRage(node->northWest, list, keyMin, keyMax);
   getInRage(node->southEst, list, keyMin, keyMax);
   getInRage(node->southWest, list, keyMin, keyMax);
+
+  if (isInRage(node, keyMin, keyMax))
+  {
+    insertInLinkedList(list, node->value);
+  }
+
   return;
 }
 
@@ -267,8 +260,6 @@ LinkedList *getInBox(QuadTree tree, Cle keyMin, Cle keyMax)
   LinkedList *list = newLinkedList();
 
   getInRage(tree->root, list, keyMin, keyMax);
-  printf("c=%d et d =%d\n", c, d);
-  printf("la taille de la list:%ld\n", sizeOfLinkedList(list));
   return list;
 }
 
@@ -285,7 +276,5 @@ QuadTree fillQuad(LinkedList *list)
     insertInQuadTree(tree, c);
     node = node->next;
   }
-  printf("size of tree:%ld\n", sizeOfQuadTree(tree->root));
-  //freeLinkedList(list,true);
   return tree;
 }

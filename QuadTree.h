@@ -10,7 +10,6 @@ typedef struct _tree *QuadTree;
 typedef struct cle *Cle;
 typedef struct node *Node;
 
-QuadTree newQuadTree();
 
 Cle newKey(double longitue, double latitude);
 
@@ -36,6 +35,6 @@ void getInRage(Node node, LinkedList *list, Cle keyMin, Cle keyMax);
 
 LinkedList *getInBox(QuadTree tree, Cle keyMin, Cle keyMax);
 
-//void insertNode(Node *root, Node node);
+QuadTree newQuadTree();
 
 #endif // !_QUAD_TREE_H_

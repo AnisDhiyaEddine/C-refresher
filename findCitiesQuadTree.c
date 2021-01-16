@@ -1,7 +1,7 @@
-#include "QuadTree.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "findCities.h"
+#include "QuadTree.h"
 
 LinkedList *findCities(LinkedList *cities,
                        double latitudeMin,
@@ -11,7 +11,6 @@ LinkedList *findCities(LinkedList *cities,
   QuadTree tree = newQuadTree();
 
   tree = fillQuad(cities);
-  //printf("La taille de l'arbre:%ld\n", sizeOfQuadTree(tree));
   Cle keyMin = newKey(longitudeMin, latitudeMin);
   Cle keyMax = newKey(longitudeMax, latitudeMax);
   return getInBox(tree, keyMin,keyMax);
