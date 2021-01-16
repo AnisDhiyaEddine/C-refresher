@@ -209,10 +209,10 @@ Number of cities: 100000
 time = 0.108084
 Number of cities after filtering: 10005
                  ------Second Approach-------
-./boxsearch cities_100000.csv 100 -10 -50 10
+ ./boxsearch cities_100000.csv 50 -10 -50 10 
 Number of cities: 100000
-time = 8.338943
-Number of cities after filtering: 13135
+time = 7.995067
+Number of cities after filtering: 10005
                  ------Third Approach-------
 ./boxsearch cities_100000.csv 50 -10 -50 10 
 Number of cities: 100000
