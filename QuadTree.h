@@ -35,6 +35,6 @@ void getInRage(Node node, LinkedList *list, Cle keyMin, Cle keyMax);
 
 LinkedList *getInBox(QuadTree tree, Cle keyMin, Cle keyMax);
 
-QuadTree newQuadTree();
+QuadTree newQuadTree(void);
 
 #endif // !_QUAD_TREE_H_

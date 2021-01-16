@@ -8,10 +8,24 @@ int compareDouble(const void *a, const void *b);
 #include <stdio.h>
 #include <stdlib.h>
 
-    int compareDouble(const void *a, const void *b)
+/* ------------------------------------------------------------------------- *
+ * Compare deux doubles.
+ *
+ * PARAMETERS
+ * a   pointeur const void, le premier double à comparer
+ * b   pointeur const void, le deuxième doubler à comparer
+ * 
+ * RETURN
+ * -1  si (a < b)  
+ *  0  si (a = b)
+ *  1  sinon
+ * ------------------------------------------------------------------------- */
+int compareDouble(const void *a, const void *b)
 {
         const double varA = *(double *)a;
+
         const double varB = *(double *)b;
+
         if (varA < varB)
         {
                 return -1;
@@ -23,32 +37,40 @@ int compareDouble(const void *a, const void *b);
         return 1;
 }
 
-LinkedList* findCities(LinkedList* cities,
+LinkedList *findCities(LinkedList *cities,
                        double latitudeMin,
                        double latitudeMax,
                        double longitudeMin,
                        double longitudeMax)
-{ 
-        const BinarySearchTree *bst = fillBst(cities,&compareDouble,0);
-        void *min = &latitudeMin; 
+{ //remplir l'arbre
+        const BinarySearchTree *bst = fillBst(cities, &compareDouble, 0);
+
+        void *min = &latitudeMin;
+
         void *max = &latitudeMax;
-        
 
-        LinkedList *s = getInRange(bst , min,max);
-   
-   
+        //filtrer l'arbre
+        LinkedList *s = getInRange(bst, min, max);
 
-if (s == NULL) return NULL;
+        //filtrage final
+        if (s == NULL)
+                return NULL;
+
         LinkedList *list = newLinkedList();
 
-         LLNode *n = s->head;
-        City *c ;
- 
-    while(n != NULL){
-     c = (City*) n->value;
+        LLNode *n = s->head;
 
-      if(c->longitude <= longitudeMax && c->longitude >= longitudeMin) insertInLinkedList(list,n->value);
-     n = n->next;
-     }  
-return list;
+        City *c;
+
+        while (n != NULL)
+        {
+
+                c = (City *)n->value;
+
+                if (c->longitude <= longitudeMax && c->longitude >= longitudeMin)
+                        insertInLinkedList(list, n->value);
+
+                n = n->next;
+        }
+        return list;
 }

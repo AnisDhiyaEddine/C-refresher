@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "findCities.h"
 #include "QuadTree.h"
+#include "findCities.h"
 
 LinkedList *findCities(LinkedList *cities,
                        double latitudeMin,

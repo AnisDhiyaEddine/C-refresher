@@ -127,18 +127,36 @@ getInRangeRec(bst, node, list, keyMin, keyMax)
        
        
        -------------------------------------------------------------------------------------
-       6-
-       
-       
-       
-       -------------------------------------------------------------------------------------
-       7-
+       6- 
+       ON a separate sheet
 
-                     
-       
-         
        -------------------------------------------------------------------------------------
-       8-
+
+       7-
+    pseudo-code of getInBox function:
+
+    void getInRage(node,list,keyMin,keyMax){
+    if(node == NULL)
+     return;
+    if (isInRage(node, keyMin, keyMax)){
+     insertInLinkedList(list, node->value);
+     }
+     getInRage(node->northEst, list, keyMin, keyMax);
+     getInRage(node->northWest, list, keyMin, keyMax);
+     getInRage(node->southEst, list, keyMin, keyMax);
+     getInRage(node->southWest, list, keyMin, keyMax);
+    return;
+ }	
+ 
+   8- 
+   
+   Complexité : 
+   Worst case : N element in our tree and they are all in range
+   N recursion call and each call a one insert operation
+   O(n) * O(1) = O(n) ; insert operation complexity is O(1)
+   Best case : No element in our tree no insertion the time complexity is O(1) 
+   
+
        
        
        

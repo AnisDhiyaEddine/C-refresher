@@ -8,11 +8,25 @@ int compareInt(const void *a, const void *b);
 #include <stdio.h>
 #include <stdlib.h>
 
-    int compareInt(const void *a, const void *b)
+/* ------------------------------------------------------------------------- *
+ * Compare deux entiers (uint64_t).
+ *
+ * PARAMETERS
+ * a   pointeur const void, le premier entier à comparer
+ * b   pointeur const void, le deuxième entier à comparer
+ * 
+ * RETURN
+ * -1  si (a < b)  
+ *  0  si (a = b)
+ *  1  sinon
+ * ------------------------------------------------------------------------- */
+int compareInt(const void *a, const void *b)
 {
 
     const uint64_t *varA = (const uint64_t *)a;
+
     const uint64_t *varB = (const uint64_t *)b;
+
     if (varA < varB)
     {
         return -1;
@@ -24,34 +38,38 @@ int compareInt(const void *a, const void *b);
     return 1;
 }
 
-LinkedList* findCities(LinkedList* cities,
+LinkedList *findCities(LinkedList *cities,
                        double latitudeMin,
                        double latitudeMax,
                        double longitudeMin,
                        double longitudeMax)
-{
-        const BinarySearchTree *bst = fillBst(cities,&compareInt,2);
+{ //remplir notre arbre
+    const BinarySearchTree *bst = fillBst(cities, &compareInt, 2);
 
-       void *min = (void *) zEncode(latitudeMin,longitudeMin);
-        void *max = (void *) zEncode(latitudeMax,longitudeMax);
+    void *min = (void *)zEncode(latitudeMin, longitudeMin);
 
-  
+    void *max = (void *)zEncode(latitudeMax, longitudeMax);
 
-        LinkedList *s = getInRange(bst , min,max);
+    //filtrer l'arbre
+    LinkedList *s = getInRange(bst, min, max);
 
-        LinkedList *list = newLinkedList();
+    LinkedList *list = newLinkedList();
 
-         LLNode *n = s->head;
-        City *c ;
- 
-    while(n != NULL){
-     c = (City*) n->value;
-     if(c->longitude <= longitudeMax && c->longitude >= longitudeMin 
-     && c->latitude >= latitudeMin && c->latitude <= latitudeMax) insertInLinkedList(list,n->value);
-     n = n->next;
-     }
-return list;
+    LLNode *n = s->head;
+
+    City *c;
+
+    //deuxième filtrage
+    while (n != NULL)
+    {
+        c = (City *)n->value;
+
+        if (c->longitude <= longitudeMax && c->longitude >= longitudeMin
+
+            && c->latitude >= latitudeMin && c->latitude <= latitudeMax)
+            insertInLinkedList(list, n->value);
+
+        n = n->next;
+    }
+    return list;
 }
-
-
-

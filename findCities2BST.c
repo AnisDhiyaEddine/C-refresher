@@ -10,11 +10,24 @@ int compareCities(const void *city1, const void *city2);
 #include "City.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+/* ------------------------------------------------------------------------- *
+ * Compare deux entiers (uint64_t).
+ *
+ * PARAMETERS
+ * a   pointeur const void, le premier entier à comparer
+ * b   pointeur const void, le deuxième entier à comparer
+ * 
+ * RETURN
+ * -1  si (a < b)  
+ *  0  si (a = b)
+ *  1  sinon
+ * ------------------------------------------------------------------------- */
 int compareDouble(const void *a, const void *b)
 {
         const double varA = *(double *)a;
+
         const double varB = *(double *)b;
+
         if (varA < varB)
         {
                 return -1;
@@ -26,28 +39,32 @@ int compareDouble(const void *a, const void *b)
         return 1;
 }
 
-LinkedList* findCities(LinkedList* cities,
+LinkedList *findCities(LinkedList *cities,
                        double latitudeMin,
                        double latitudeMax,
                        double longitudeMin,
                        double longitudeMax)
-{
-        const BinarySearchTree *bstLat = fillBst(cities,&compareDouble,0);
-        void *minLat = &latitudeMin; 
+{ //remplir l'arbre
+        const BinarySearchTree *bstLat = fillBst(cities, &compareDouble, 0);
+
+        void *minLat = &latitudeMin;
+
         void *maxLat = &latitudeMax;
-        LinkedList *listLat = getInRange(bstLat , minLat,maxLat);
 
-        const BinarySearchTree *bstLng = fillBst(cities,&compareDouble,1);
-        void *minLng = &longitudeMin; 
+        //filtrer le premiere arbre
+        LinkedList *listLat = getInRange(bstLat, minLat, maxLat);
+
+        const BinarySearchTree *bstLng = fillBst(cities, &compareDouble, 1);
+
+        void *minLng = &longitudeMin;
+
         void *maxLng = &longitudeMax;
-        LinkedList *listLong = getInRange(bstLng , minLng,maxLng);
 
-        
+        //filtrer le deuxieme arbre
+        LinkedList *listLong = getInRange(bstLng, minLng, maxLng);
 
-        LinkedList *list = intersect(listLat,listLong,compareCities);
+        //faire l'intersection des deux arbre
+        LinkedList *list = intersect(listLat, listLong, compareCities);
 
-        
- 
-
-return list;
+        return list;
 }
