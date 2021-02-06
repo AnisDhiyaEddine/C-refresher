@@ -1,0 +1,33 @@
+//Processes
+#include<unistd.h>
+
+pid_t fork();
+exit(int status); // 0 success 1 failure
+pid_t wait(int *status); //wait the first return status <- exitStat
+pid_t waitpid(pid_t pid,int *status, int options); //wait specific process , return it's id and status <- exit status 
+pid_t getpid(); // get pid 
+pid_t getppid(); // get parent pid 
+int atexit(void (* function)(void)); // fct to get excuted when the process is terminated 
+// return void and has no args 
+
+
+//Threads
+#include<pthread.h>
+// compilation options # -lpthread
+
+int pthread_create(pthread_t *tid, pthread_attr_t *attr,void *(*start_routine)(void *),void *args)
+// Options :)
+
+void pthread_exit(void *retval);
+//Thread terminison , retval <- returned value wished 
+
+void exit(int status) //inside a thread terminates all the Program 
+
+pthread_t pthread_self(void) // inside a thread we get the identifier
+
+pid_t gettid(void) //in some linux distrubutions returns the real tid
+
+int pthread_join(pthread_t *tid,void ** tread_return);
+//Note the thread returns void* retval 
+//We put it in **thread_return :)
+
