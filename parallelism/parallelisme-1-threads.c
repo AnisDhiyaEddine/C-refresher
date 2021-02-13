@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
+//Demonstrate the main diffrence between threads and child processes created by fork
 void *function(void *argv)
 {
   printf("running the program %s\n", ((char **)argv)[0]);
