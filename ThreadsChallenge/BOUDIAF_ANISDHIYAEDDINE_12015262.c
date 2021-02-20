@@ -13,7 +13,7 @@
 #include <math.h>
 #include <unistd.h>
 
-#define nmrEtudiant 12015262
+#define nbrEtudiant 12015262
 typedef struct argument_texte_s
 {
   char * texte;
@@ -60,6 +60,14 @@ size_t combien_de_fichiers(DIR * dir){
 
 
 /***************************************** Exercice 2 *****************************************/
+
+/**
+   Cette fonction renvoie une nouvelle structure de type argument_text_t initialisé avec les parametres
+   @requires stlen(texte) == taille > 0;
+   @param texte est une chaine de caractère
+   @param taille est un nombre qui represente la taille de la chaine de caractère
+   @return une structure argument_text_t initialisé avec texte et taille 
+ */
 argument_texte_t creer_argument(char *texte, int taille){
   argument_texte_t initialized;
   initialized.taille_texte = taille;
@@ -68,10 +76,15 @@ argument_texte_t creer_argument(char *texte, int taille){
   for (i = 0; i < taille;i++){
     initialized.texte[i] = texte[i];
   }
-   // strcpy(initialized.texte, (const char *)texte);
   return initialized;
 }
 
+/**
+   Cette fonction renvoie un pointeur vers une structure de type argument_fichier_t initialisé avec les parametres
+   @requires chemin != NULL || "";
+   @param chemin est un chaine de caractère qui represente le chemin de fichier
+   @return un pointeur vers une structure argument_fichier_t initialisé avec le chemin de fichier
+ */
 argument_fichier_t *creer_argument_fichier(char *chemin){
   argument_fichier_t * args = malloc(sizeof(argument_fichier_t));
   args->chemin = malloc(sizeof(char) * strlen(chemin));
@@ -79,12 +92,25 @@ argument_fichier_t *creer_argument_fichier(char *chemin){
   return args;
 }
 
+/**
+   Cette fonction libère la structure argument_fichier_t passé en argument
+   @param args est un pointeur vers la structure argument_fichier_t
+ */
 void liberer_argument_fichier(argument_fichier_t *args){
   args = NULL;
   free(args);
 }
+
+
+
 /***************************************** Exercice 3 *****************************************/
 
+/**
+   Cette fonction recherche dans une chaine le nbrEtudiant codé en dur
+   @requires args != NULL.
+   @param args est un poineur vers argument_texte_t après le cast
+   @return 1 si la chaine contient le numéro étudiant 0 sinon 
+ */
 void * rechercher_texte(void *args){
   argument_texte_t *arg = (void *)args;
   int *found = malloc(sizeof(int));
@@ -96,7 +122,14 @@ void * rechercher_texte(void *args){
   }
   pthread_exit((void *)found);
 }
+
+
 /***************************************** Exercice 4 *****************************************/
+
+/**
+   Cette fonction initialise les attributs d'un thread avec min stack size
+   @return un pointeur vers une structure d'attribut initialisé
+ */
 pthread_attr_t attributs_recherche_texte()
 {
   pthread_attr_t *attr = malloc(sizeof(pthread_attr_t));
@@ -104,31 +137,61 @@ pthread_attr_t attributs_recherche_texte()
   return *attr;
 }
 
+/**
+  Cette fonction initialise les attributs d'un thread avec le numéro d'étudiant
+   @return un pointeur vers une structure d'attribut initialisé
+ */
 pthread_attr_t attributs_recherche_fichier()
 {
   pthread_attr_t *attr = malloc(sizeof(pthread_attr_t));
-  pthread_attr_setstacksize(attr,nmrEtudiant);
+  pthread_attr_setstacksize(attr,nbrEtudiant);
   return *attr;
 }
 
+
+
     /***************************************** Exercice 5 *****************************************/
-    void copie_fichier_chaine(char *chemin,char *chaine,long taille){
-      if(taille > 1E7 )
-        return;
 
-      FILE *fp = fopen(chemin, "r");
-      int i = 0;
+/**
+   Cette fonction copie le contenu d'un fichier dans une chaine de caractères
+   @requires chemin != NULL.
+   @requires chaine != NULL.
+   @requires taille <= 1E7, taille inférieur à 10Mo
 
-      while(!feof(fp)){
-        chaine[i] = fgetc(fp);
-        i++;
-      }
-      i--;
-      chaine[i] = '\0';
-      fclose(fp);
+   @param chemin est une chaine de caratctère qui represente le chemin vers le fichier à lire
+   @param chaine est une chaine de caratctère qui va contenir le contenu de fichier
+   @param taille est un nombre qui represente la taille de fichier
+ */
+
+void copie_fichier_chaine(char *chemin, char *chaine, long taille)
+{
+  if (taille > 1E7)
+    return;
+
+  FILE *fp = fopen(chemin, "r");
+  int i = 0;
+
+  while (!feof(fp))
+  {
+    chaine[i] = fgetc(fp);
+    i++;
+  }
+  i--;
+  chaine[i] = '\0';
+  fclose(fp);
     }
 
-    void decouper(argument_texte_t tab[10],char *chaine,long length){
+    /**
+   Cette fonction decoupe une chaine de caractère en 10 sous chaine égaux en taille sauf le dernier qui est légerment plus petit
+   @requires chaine != NULL.
+   @requires length > 18.
+   @param tab est un tableau de 10 structures argument_texte_t qui vont contenir les differentes parties de la chaine à decouper
+   @param chaine est une chaine de caractère qu'on va découper
+   @param length est un nombre qui represente la taille de la chaine à découper
+ */
+
+    void decouper(argument_texte_t tab[10], char *chaine, long length)
+    {
       int i, j,block = floor(length / 10) + 1;
       char *str = malloc(sizeof(char) * block);
       for (i = 0; i < 9; i++)
@@ -141,38 +204,48 @@ pthread_attr_t attributs_recherche_fichier()
       str = malloc(sizeof(char)*(length - block * 9));
       for (j = 0; j < length - block * 9; j++) str[j] = chaine[j - 1 + block * 9];
        tab[9] = creer_argument(str, (length - block * 9));
+  }
+
+  /**
+   Cette fonction recherche dans un fichier l'existance d'un numéro étudiant codé en dur dans la fonction rechercher_texte
+   @requires arg_fichier != NULL.
+   @param arg_fichier est un pointeur après le cast vers une structure argument_fichier_t qui contient les informations nécessaire de fichier pour chercher le nbrEtudiant 
+   @return arg casté pointeyur vers une structure argument_fichier_t qui contient un flag résultat positioné à '1' si le fichier contient le nbrEtudient '-' sinon
+ */
+  void *recherche_fichier(void *arg_fichier)
+  {
+
+    argument_fichier_t arg = *(argument_fichier_t *)arg_fichier;
+    char *chaine = malloc(sizeof(char) * 1E6);
+    copie_fichier_chaine(arg.chemin, chaine, taille_fichier(arg.chemin));
+    argument_texte_t tab[10];
+    decouper(tab, chaine, taille_fichier(arg.chemin));
+    int i;
+    pthread_t th[10];
+    void *ret;
+    pthread_attr_t attr = attributs_recherche_texte();
+    for (i = 0; i < 10; i++)
+    {
+      if(pthread_create(&th[i], &attr, rechercher_texte, (void *)&tab[i])){
+        perror("error creation threads to operate on file slices");
+        exit(EXIT_FAILURE);
+      };
     }
 
-
-
-
-    void *recherche_fichier(void * arg_fichier){
-
-      argument_fichier_t arg = *(argument_fichier_t *)arg_fichier;
-
-      printf("%s \n", arg.chemin);
-      char *chaine = malloc(sizeof(char) * 1E6);
-      copie_fichier_chaine(arg.chemin, chaine, taille_fichier(arg.chemin));
-      argument_texte_t tab[10];
-      decouper(tab, chaine, taille_fichier(arg.chemin));
-      int i;
-            pthread_t th[10];
-      void *ret;
-      pthread_attr_t attr = attributs_recherche_texte();
-      for (i = 0; i < 10;i++){
-        pthread_create(&th[i], &attr, rechercher_texte, (void *)&tab[i]);
-      }
-
-      for (i = 0; i < 10; i++)
+    for (i = 0; i < 10; i++)
+    {
+      pthread_join(th[i], &ret);
+      if (*(int *)ret == 1)
       {
-        pthread_join(th[i], &ret);
-        if (**(int **)&ret == 1)
-        {
-         arg.resultat = '1';
-        }
+        arg.resultat = '1';
       }
-      pthread_exit((void *)&arg);
     }
+    ret = NULL;
+    free(ret);
+    pthread_exit((void *)&arg);
+    }
+
+
 
     /***************************************** Exercice 6 *****************************************/
 
@@ -181,7 +254,6 @@ pthread_attr_t attributs_recherche_fichier()
 
   DIR *dir = opendir(argv[1]);
   int nbrDesFichiers = combien_de_fichiers(dir);
-  printf("le nombre des fichier est %d\n", nbrDesFichiers);
   int i = 0;
   pthread_t *th = malloc(sizeof(pthread_t) * nbrDesFichiers);
   pthread_attr_t attr = attributs_recherche_fichier();
@@ -194,7 +266,10 @@ pthread_attr_t attributs_recherche_fichier()
 
       arg->chemin = contenu->d_name;
       arg->resultat = '-';
-      pthread_create(&th[i], &attr, recherche_fichier,creer_argument_fichier(arg->chemin));
+      if(pthread_create(&th[i], &attr, recherche_fichier,creer_argument_fichier(arg->chemin))){
+        perror("error creation threads to operate on files");
+        exit(EXIT_FAILURE);
+      }
       i++;
     }
    }
@@ -208,7 +283,10 @@ pthread_attr_t attributs_recherche_fichier()
     if (argument.resultat == '1')
       printf("le fichier %s contient mon numéro d'étudiant \n", argument.chemin);
   }
-    return EXIT_SUCCESS;
+  ret = NULL;
+  free(ret);
+
+  return EXIT_SUCCESS;
 }
 
 
