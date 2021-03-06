@@ -1,0 +1,11 @@
+double *creer_matrice(int);
+void remplisage_aleatoire(double *, int);
+void afficher_matrice(double *M, int);
+void liberer_memoire(double *M);
+double *sous_matrice(double *M, int, int, int, int);
+void addition_matrices(double *X, double *Y, double *R, int);
+void soustraction_matrices(double *X, double *Y, double *R, int);
+void composer_matrices(double *C, int, double *T1, int, int, int);
+double *algo_naif(double *A, double *B, int);
+double *strassen(double *A, double *B, int);
+void remplirABHard(double *A, double *B, int N);
