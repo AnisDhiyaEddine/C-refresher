@@ -1,0 +1,82 @@
+
+
+
+
+Pour K < 8 on a 
+la méthode naive est plus rapide par rapport à la méthode strassen1
+la méthode strassen2 est plus rapide par rapport à la méthode strassen2
+   Pour k=7  n= 255
+
+methode Naive: 0.0987720000 seconds
+methode strassen1: 0.1831490000 seconds
+methode strassen2: 0.1647190000 seconds
+
+   Pour K=8  n= 512
+
+methode Naive: 1.0692640000 seconds
+methode strassen1: 1.3769890000 seconds
+methode strassen2: 1.3741090000 seconds
+
+
+   pour k=9  n=1023
+
+methode Naive: 11.5150490000 seconds
+methode strassen1: 9.7064690000 seconds
+methode strassen2: 11.3699310000 seconds
+
+
+   pour k=9  n=768
+
+methode Naive: 4.0072940000 seconds
+methode strassen1: 9.8955700000 seconds
+methode strassen2: 5.0025570000 seconds
+
+
+   pour k=9  n=896
+
+methode Naive: 5.9327070000 seconds
+methode strassen1: 9.0363740000 seconds
+methode strassen2: 7.0840990000 seconds
+ 
+    pour k=9  n=960
+
+methode Naive: 6.9854630000 seconds
+methode strassen1: 10.1894330000 seconds
+methode strassen2: 10.0724650000 seconds
+
+
+
+Pour n >= 1023 strassen1 et strassen2 sont plus rapide par rapport la méthode classique
+
+3- pour n > 1023 la méthode de strassen1 est plus rapide par rapport à strassen2
+   pour n < 1023 la méthode de strassen2 est plus rapide par rapport à strassen1
+
+   Conclusion: pour n > 1023 l'éxtention du matrice et l'application de strassen 
+   est beaucoup moins couteuse par rapport à strassen 2 qui nécissite beaucoup de 
+   calcul "nbr de ligne et collonne est significativement grand"
+
+
+4- Le nombre des opérations arithmétiques de strassen 2 pour n = 2^K -1 est 
+Avant d'excuter strassen on excute strassen2 2^(k-1)-1;
+
+creer_matrice = 2
+composer_matrice = n^2 * 8
+sous_matrice = n^2 * 8
+
+Premiere boucle = 13*(n-2)^2
+Deuxième boucle = 8*(n-1)^2 + 3*(n-1)
+Troisième boucle = (n-2)*(n-1)*8+3*(n-2)
+
+
+soit #(n) est le nombre d'opération arithmétique pour strassen2(n);
+
+#(n) = (4*2) + 16*n^2 + 8*(n-1)^2 + 13(n-2)^2 + (n-1)(8(n-1)+3) + (n-2)(8(n-1)+3) + #(n-1)
+     = 53n^2-102n+83 + #(n-1)
+     = 53n^2-102n+83 + 53(n-1)^2-102(n-1)+83
+     .
+     .
+     .
+     = somme(i=2^(k-1)+1 -> i=2^k - 1)[53*i^2 + 102*i + 83] + #(strassen(2^(k-1)))
+     avec #strassen(n) = n^2.81
+     Le reste de la question dans le fichier pdf joint 
+      
