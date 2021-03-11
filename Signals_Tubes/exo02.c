@@ -8,14 +8,13 @@
 
 int signals = 0;
 
-void childHandler(){
-  printf("child handler \n");
+void signalCalc(){
   signals = signals+1;
 }
 
 void exitFunction(){
-    printf(" hey i'm shutting down \n");
-    exit(EXIT_SUCCESS);
+  printf("shutting down child\n");
+  exit(EXIT_SUCCESS);
 }
 
 
@@ -23,21 +22,26 @@ int main(int charc, char **argv){
 
   pid_t fils = fork();
 
-  if(fils == 0){ 
-      // Child process
-  signal(SIGUSR2,exitFunction);
-  while(1){
-      kill(getppid(),SIGUSR1);
-      sleep(2);
+  if(fils == 0){
+    while(1){
+      signal(SIGUSR2, exitFunction);
+      kill(getppid(), SIGUSR1);
+      sleep(1);
+    }
   }
-  }else{ 
-      // Parent process
-    printf("Parent starts excuting\n");
-    signal(SIGUSR1,childHandler);
-    // hard coded value
-    if(signals == 3)kill(fils,SIGUSR2);
-  }
+  else
+  {
+    while(1){
+      signal(SIGUSR1, signalCalc);
+      if (signals == 5)
+      {
+        printf("heyyy number reached\n");
+        kill(fils, SIGUSR2);
+        sleep(1);
+        exit(EXIT_SUCCESS);
+      }
+    }
 
-  printf("hello world");
-  return EXIT_SUCCESS;
+   
+  }
 }
